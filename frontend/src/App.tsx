@@ -1,12 +1,10 @@
-import Form from "./components/Form"
-import Logo from "./components/Logo"
+import Homepage from "./pages/HomePage"
 function App() {
 
   return (
-    <div className="bg-custom-bg bg-cover bg-center h-screen w-screen">
-      <Logo />
-      <Form />
-    </div>
+    <>
+      <Homepage />
+    </>
   )
 }
 
