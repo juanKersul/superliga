@@ -23,6 +23,20 @@ export class PersonController extends Controller {
         orderBy,
         limit,
       });
+      data.forEach(person => {
+        if (person.Person_nombre !== undefined) person.nombre = person.Person_nombre;
+        if (person.Person_edad !== undefined) person.edad = person.Person_edad;
+        if (person.Person_equipo !== undefined) person.equipo = person.Person_equipo;
+        if (person.Person_estadoCivil !== undefined) person.estadoCivil = person.Person_estadoCivil;
+        if (person.Person_nivelDeEstudios !== undefined) person.nivelDeEstudios = person.Person_nivelDeEstudios;
+        delete person.Person_nombre;
+        delete person.Person_edad;
+        delete person.Person_equipo;
+        delete person.Person_estadoCivil;
+        delete person.Person_nivelDeEstudios;
+        delete person["?column?"];
+      });
+
       return data;
     } catch (error) {
       console.error(error);

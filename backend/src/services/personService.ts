@@ -13,6 +13,10 @@ export class PersonsService {
   private personrepository = AppDataSource.getRepository(Person);
   async QueryPersons(params: QueryParams) {
     let query = this.personrepository.createQueryBuilder();
+    const hasData = await query.getCount();
+    if (hasData === 0) {
+      return [];
+    }
     if (params.select) {
       const select = params.select.split(",").map((field) => `Person.${field}`);
       query.select(select);
@@ -54,7 +58,7 @@ export class PersonsService {
 
         additionalConditions.forEach((condition) => {
           const [field, value] = condition.split("=");
-          query.andWhere(`Person.${field} = :${field}`, { [field]: value });
+          query.andWhere(`"Person"."${field}" = :${field}`, { [field]: value });
         });
       }
     }
@@ -71,7 +75,7 @@ export class PersonsService {
       const [field, order] = params.orderBy
         .split(":")
         .map((part) => part.trim());
-      query.orderBy(`Person.${field}`, order.toUpperCase() as "ASC" | "DESC");
+      query.orderBy(`${field}`, order.toUpperCase() as "ASC" | "DESC");
     }
     if (params.limit) {
       query.limit(params.limit);
